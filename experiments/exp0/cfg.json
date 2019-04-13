@@ -1,0 +1,28 @@
+{
+  "device": "cuda:0",
+  "dataset": {
+    "image_set":["train_2007","val_2007", "train_2012", "val_2012"],
+    "batch_size": 16,
+    "random scale": {
+      "stride": 32,
+      "min": 10,
+      "max": 14
+    }
+
+  },
+
+  "optim": {
+    "lr": 1e-3,
+    "momentum": 0.9,
+    "weight_decay": 5e-04
+  },
+
+  "lr_scheduler": {
+    "warmup": 5,
+    "config": {
+      "milestones": [160, 180, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490],
+      "gamma": 0.1
+    }
+  }
+
+}
