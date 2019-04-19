@@ -74,9 +74,7 @@ class Resize(CustomTransform):
             boxes = boxes.astype('float')
             boxes /= np.array([[origin_w, origin_h, origin_w, origin_h]])
             boxes *= np.array([[rescale_w, rescale_h, rescale_w, rescale_h]])
-            return img, boxes
-        else:
-            return img
+        return img, boxes
 
     def reset_size(self, size):
         if isinstance(size, int):
@@ -107,9 +105,7 @@ class RandomResize(Resize):
             boxes = boxes.astype('float')
             boxes /= (origin_h, origin_w, origin_h, origin_w)
             boxes *= (rescale_w, rescale_h, rescale_w, rescale_h)
-            return img, boxes
-        else:
-            return img
+        return img, boxes
 
     def __eq__(self, name):
         return str(self) == name or name == 'Resize'
@@ -121,10 +117,7 @@ class Normalize(CustomTransform):
 
     def __call__(self, img, boxes=None):
         img = self.transform(img)
-        if boxes is not None:
-            return img, boxes
-        else:
-            return img
+        return img, boxes
 
 
 class To_torch_channel(CustomTransform):
@@ -134,10 +127,7 @@ class To_torch_channel(CustomTransform):
         elif isinstance(img, np.ndarray):
             img = img.transpose(2, 0, 1)
 
-        if boxes is not None:
-            return img, boxes
-        else:
-            return img
+        return img, boxes
 
 
 class ToTensor(CustomTransform):
@@ -148,10 +138,7 @@ class ToTensor(CustomTransform):
         img = img.transpose(2, 0, 1)
         img = torch.from_numpy(img).type(self.dtype) / 255.
 
-        if boxes is not None:
-            return img, boxes
-        else:
-            return img
+        return img, boxes
 
 
 class Box_TopWH_To_CenterWH(CustomTransform):

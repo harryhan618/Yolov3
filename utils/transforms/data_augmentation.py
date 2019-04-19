@@ -127,9 +127,7 @@ class Random_Color_Distort(CustomTransform):
             img = self._brightness(img)
             img = self._contrast(img)
 
-        if boxes is not None:
-            return img, boxes
-        return img
+        return img, boxes
 
     def _brightness(self, img):
         low = np.min(img)
