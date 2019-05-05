@@ -1,8 +1,11 @@
 import numpy as np
 import torch
 
-from .cpu_nms import cpu_nms
-from .cpu_soft_nms import cpu_soft_nms
+from .build.cpu_nms import cpu_nms
+from .build.cpu_soft_nms import cpu_soft_nms
+
+if torch.cuda.is_available():
+    from .build.gpu_nms import gpu_nms
 
 
 

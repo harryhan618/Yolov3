@@ -10,7 +10,7 @@ cimport numpy as np
 
 assert sizeof(int) == sizeof(np.int32_t)
 
-cdef extern from "gpu_nms.hpp":
+cdef extern from "scrc/gpu_nms.hpp":
     void _nms(np.int32_t*, int*, np.float32_t*, int, int, float, int, size_t) nogil
     size_t nms_Malloc() nogil
 

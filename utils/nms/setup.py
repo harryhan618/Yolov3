@@ -22,8 +22,6 @@ extensions = [
 ]
 if torch.cuda.is_available():
     extensions.append(Extension('gpu_nms', ['gpu_nms.pyx', 'nms_kernel.cu'], **ext_args))
-    ext_args['extra_compile_args']['cc'].append("L$(CUDA_DIR)/lib64")
-    ext_args['extra_compile_args']['cc'].append("-lcudart")
 
 
 def customize_compiler_for_nvcc(self):

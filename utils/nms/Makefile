@@ -1,7 +1,7 @@
 
 all:
 	echo "Compiling nms kernels..."
-	python setup.py build_ext --inplace
+	python setup.py build_ext --build-lib build
 
 clean:
-	rm -f *.so
+	rm -rf build
