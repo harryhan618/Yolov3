@@ -7,10 +7,10 @@ ext_modules = [
     Extension(
         "box_iou",
         ["box_iou.pyx"],
-        extra_compile_args={'gcc': ["-Wno-cpp", "-Wno-unused-function"]},
         include_dirs=[np.get_include()],
     )
 ]
+
 
 class custom_build_ext(build_ext):
     def build_extensions(self):

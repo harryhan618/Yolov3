@@ -2,6 +2,7 @@ import os.path as osp
 from distutils.core import setup, Extension
 
 import numpy as np
+import torch
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
@@ -18,8 +19,11 @@ ext_args = dict(
 extensions = [
     Extension('cpu_nms', ['cpu_nms.pyx'], **ext_args),
     Extension('cpu_soft_nms', ['cpu_soft_nms.pyx'], **ext_args),
-    Extension('gpu_nms', ['gpu_nms.pyx', 'nms_kernel.cu'], **ext_args),
 ]
+if torch.cuda.is_available():
+    extensions.append(Extension('gpu_nms', ['gpu_nms.pyx', 'nms_kernel.cu'], **ext_args))
+    ext_args['extra_compile_args']['cc'].append("L$(CUDA_DIR)/lib64")
+    ext_args['extra_compile_args']['cc'].append("-lcudart")
 
 
 def customize_compiler_for_nvcc(self):
@@ -63,12 +67,13 @@ def customize_compiler_for_nvcc(self):
 class custom_build_ext(build_ext):
 
     def build_extensions(self):
-        customize_compiler_for_nvcc(self.compiler)
+        if torch.cuda.is_available():
+            customize_compiler_for_nvcc(self.compiler)
         build_ext.build_extensions(self)
 
 
 setup(
     name='nms',
     cmdclass={'build_ext': custom_build_ext},
-    ext_modules=cythonize(extensions),
+        ext_modules=cythonize(extensions, build_dir="build"),
 )
